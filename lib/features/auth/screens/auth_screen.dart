@@ -131,7 +131,9 @@ class AuthScreenState extends State<AuthScreen> {
                           kHeight10,
                           CustomButton(
                             text: 'SignUp',
-                            ontap: () {},
+                            ontap: () {
+                              
+                            },
                           )
                         ],
                       )),
