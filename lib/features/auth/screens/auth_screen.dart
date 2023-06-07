@@ -2,6 +2,7 @@ import 'package:amazone_clone/common/widgets/custom_button.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/common/widgets/custom_textfield.dart';
 import 'package:amazone_clone/constants/utils.dart';
+import 'package:amazone_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { signin, signup }
@@ -18,16 +19,25 @@ class AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   final signupFormKey = GlobalKey<FormState>();
   final signinFormKey = GlobalKey<FormState>();
+  final AuthService authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  void signupUser() {
+    authService.signUpUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: GlobalVariables.greyBackgroundCOlor,
         body: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
               padding: EdgeInsets.all(8.0),
@@ -73,18 +83,22 @@ class AuthScreenState extends State<AuthScreen> {
                           ),
                           kHeight10,
                           CustomTextfield(
-                            controller: _emailController,
+                            controller: _emailController, 
                             hintText: 'Email',
                           ),
                           kHeight10,
                           CustomTextfield(
-                            controller: _emailController,
+                            controller: _passwordController,
                             hintText: 'Password',
                           ),
                           kHeight10,
                           CustomButton(
                             text: 'SignUp',
-                            ontap: () {},
+                            ontap: () {
+                              if (signupFormKey.currentState!.validate()) {
+                                signupUser();
+                              }
+                            },
                           )
                         ],
                       )),
@@ -125,15 +139,13 @@ class AuthScreenState extends State<AuthScreen> {
                           ),
                           kHeight10,
                           CustomTextfield(
-                            controller: _emailController,
+                            controller: _passwordController,
                             hintText: 'Password',
                           ),
                           kHeight10,
                           CustomButton(
-                            text: 'SignUp',
-                            ontap: () {
-                              
-                            },
+                            text: 'Sign-In',
+                            ontap: () {},
                           )
                         ],
                       )),
