@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:amazone_clone/common/widgets/bottom_bar.dart';
 import 'package:amazone_clone/constants/error_handling.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/constants/utils.dart';
@@ -74,7 +75,7 @@ class AuthService {
             preferences.setString(
                 'x-auth-token', jsonDecode(res.body)['token']);
             Navigator.of(context).pushNamedAndRemoveUntil(
-              HomeScreen.routeName,
+              BottomBar.routeName,
               (route) => false,
             );
             showSnackBar(context, 'Signed in successfully');
