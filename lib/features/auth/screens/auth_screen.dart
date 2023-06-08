@@ -31,6 +31,13 @@ class AuthScreenState extends State<AuthScreen> {
         name: _nameController.text);
   }
 
+  void signInUser() {
+    authService.signInUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +90,7 @@ class AuthScreenState extends State<AuthScreen> {
                           ),
                           kHeight10,
                           CustomTextfield(
-                            controller: _emailController, 
+                            controller: _emailController,
                             hintText: 'Email',
                           ),
                           kHeight10,
@@ -129,7 +136,7 @@ class AuthScreenState extends State<AuthScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Form(
-                      key: signupFormKey,
+                      key: signinFormKey,
                       child: Column(
                         children: [
                           kHeight10,
@@ -145,7 +152,11 @@ class AuthScreenState extends State<AuthScreen> {
                           kHeight10,
                           CustomButton(
                             text: 'Sign-In',
-                            ontap: () {},
+                            ontap: () {
+                              if (signinFormKey.currentState!.validate()) {
+                                signInUser(); 
+                              }
+                            },
                           )
                         ],
                       )),

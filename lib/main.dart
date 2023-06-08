@@ -1,27 +1,47 @@
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazone_clone/features/auth/services/auth_service.dart';
+import 'package:amazone_clone/features/home/screens/home_screen.dart';
+import 'package:amazone_clone/providers/user_provider.dart';
 import 'package:amazone_clone/router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+    )
+  ], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    AuthService().getUser(context: context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      onGenerateRoute: (settings) => generateRoute(settings),
-      theme: ThemeData(
-          scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-          colorScheme:
-              const ColorScheme.light(primary: GlobalVariables.secondaryColor),
-          appBarTheme: const AppBarTheme(
-              elevation: 0, iconTheme: IconThemeData(color: Colors.black))),
-      home: const AuthScreen()
-    );
+        title: 'Flutter Demo',
+        onGenerateRoute: (settings) => generateRoute(settings),
+        theme: ThemeData(
+            scaffoldBackgroundColor: GlobalVariables.backgroundColor,
+            colorScheme: const ColorScheme.light(
+                primary: GlobalVariables.secondaryColor),
+            appBarTheme: const AppBarTheme(
+                elevation: 0, iconTheme: IconThemeData(color: Colors.black))),
+        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            ? const HomeScreen()
+            : const AuthScreen());
   }
 }
