@@ -33,7 +33,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'Amazone Clone',
         onGenerateRoute: (settings) => generateRoute(settings),
         theme: ThemeData(
             scaffoldBackgroundColor: GlobalVariables.backgroundColor,
